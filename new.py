@@ -60,24 +60,25 @@ if __name__ == "__main__": #iskame da se izvikva SAMO KOGATO SE STARTIRA PROGRAM
     log_file.addHandler(console_handler)
     #tova beshse samo za loginga
 
-    #sega za eventa
+    #FOR THE EVENT:
 
     #setting up event handling
-    event_handler = FileSystemEventHandler() #tuk izvikvame tova koeto sme mu imprtnali
-    event_handler.on_created = on_created   #za vseki edin event izivikvai opredelenata funkcija
+    event_handler = FileSystemEventHandler() #FileSystemEventHandler class, which is provided by the watchdog library. 
+    #This event handler is responsible for defining actions to be taken when specific file system events occur.
+    event_handler.on_created = on_created   #za vseki edin event izivikvai opredelenata funkcija  # It means that when a file or directory creation event occurs, the on_created function will be called.
     event_handler.on_deleted = on_deleted
     event_handler.on_moved = on_moved
-    observer = Observer() #kreirame observer
+    observer = Observer()                     #This line creates an instance of the Observer class, which is responsible for observing file system event
     path = "/home/ec2-user/my_dir/"
     #kazvame kade da sledi za promeeneni failove
-    observer.schedule(event_handler, path=path, recursive=True)
+    observer.schedule(event_handler, path=path, recursive=True)   #This line tells the observer to schedule the event_handler to monitor the specified path recursively. It means that the event_handler will receive notifications for events occurring in the specified directory and its subdirectories.
 
     #start the observer
-    observer.start()
+    observer.start()            #This line starts the observer, and it begins monitoring the specified directory for file system events
     print("Wathing for file changes...")
-    try: #ako handlene mn eventi na vednysh
+    try: #ako handlene mn eventi na vednysh     #This line starts a try block to handle any exceptions that may occur while the observer is running.
         while True:
-            time.sleep(1)
+            time.sleep(1)                    #This line makes the program sleep for 1 second in each iteration of the loop, reducing CPU usage.
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
