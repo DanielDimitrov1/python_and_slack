@@ -1,20 +1,20 @@
 #!/usr/bin/python3
 
-import os
-import logging #for logging in log file what is going on wiht program
-import time
+import os                       #provides a way to interact with the operating system.
+import logging                  #which allows for logging events and messages
+import time                     #which provides various time-related functions.
 import json
-import requests   #for the slack
+import requests                 #which allows for making HTTP requests. (in this case for the slack)
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from watchdog.events import FileSystemEventHandler     #This class provides methods that are called when specific file system events occur.
 
 def send_slack_notification(message): #here we will give the message that shoudl be send
     webhook_url = "https://hooks.slack.com/services/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"
     headers = {"Content-type" : "/application/json"}
     data = {'text': message} #this is what we are giving to it
-    response = requests.post(webhook_url, headers=headers, data=json.dumps(data)) #тук ще разберем дали сме изпратили съобщението или има грешка
+    response = requests.post(webhook_url, headers=headers, data=json.dumps(data)) #тук ще разберем дали сме изпратили съобщението или има грешка , This line sends an HTTP POST request to the webhook_url using the requests.post method. It includes the headers dictionary and the data dictionary, which is converted to a JSON string using json.dumps. The response from the request is assigned to the variable response.
     # дата.dumps защото датата тръв от python dictionery to json file
-    if response.status_code == 200: #aко върне код 200 значи че се е изпълтнил
+    if response.status_code == 200: #aко върне код 200 значи че се е изпълтнил, 
         print(f"Send slack notification: {message}")
     else: # обаче ако не се е изпратило
         print(f"Error sending slack notification: {response.status_code} - {response.text}")
